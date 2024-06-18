@@ -24,6 +24,11 @@ export const CustomerCreate = (props: CreateProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={AddressTitle} />
         </ReferenceArrayInput>
+        <TextInput label="companyName" source="companyName" />
+        <TextInput
+          label="companyOrganizationNumber"
+          source="companyOrganizationNumber"
+        />
         <ReferenceArrayInput
           source="contactPeople"
           reference="ContactPerson"
@@ -32,9 +37,7 @@ export const CustomerCreate = (props: CreateProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={ContactPersonTitle} />
         </ReferenceArrayInput>
-        <TextInput label="firstName" source="firstName" />
         <TextInput label="homepage" source="homepage" />
-        <TextInput label="lastName" source="lastName" />
       </SimpleForm>
     </Create>
   );

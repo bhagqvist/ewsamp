@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { OrderModule } from "./order/order.module";
 import { ContactPersonModule } from "./contactPerson/contactPerson.module";
-import { ProductModule } from "./product/product.module";
 import { CustomerModule } from "./customer/customer.module";
+import { ProductModule } from "./product/product.module";
 import { OrderItemModule } from "./orderItem/orderItem.module";
 import { ShippingModule } from "./shipping/shipping.module";
 import { EmployeeModule } from "./employee/employee.module";
@@ -21,8 +21,8 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
   imports: [
     OrderModule,
     ContactPersonModule,
-    ProductModule,
     CustomerModule,
+    ProductModule,
     OrderItemModule,
     ShippingModule,
     EmployeeModule,

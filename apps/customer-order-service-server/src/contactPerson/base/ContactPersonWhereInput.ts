@@ -11,9 +11,10 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
+import { AddressListRelationFilter } from "../../address/base/AddressListRelationFilter";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { OrderListRelationFilter } from "../../order/base/OrderListRelationFilter";
@@ -21,6 +22,18 @@ import { IntNullableFilter } from "../../util/IntNullableFilter";
 
 @InputType()
 class ContactPersonWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => AddressListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => AddressListRelationFilter)
+  @IsOptional()
+  @Field(() => AddressListRelationFilter, {
+    nullable: true,
+  })
+  addresses?: AddressListRelationFilter;
+
   @ApiProperty({
     required: false,
     type: () => CustomerWhereUniqueInput,
@@ -32,6 +45,17 @@ class ContactPersonWhereInput {
     nullable: true,
   })
   customer?: CustomerWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  department?: StringNullableFilter;
 
   @ApiProperty({
     required: false,

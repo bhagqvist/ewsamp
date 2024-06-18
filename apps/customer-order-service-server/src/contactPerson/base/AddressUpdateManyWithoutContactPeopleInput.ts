@@ -10,37 +10,37 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
-import { OrderItemWhereUniqueInput } from "../../orderItem/base/OrderItemWhereUniqueInput";
+import { AddressWhereUniqueInput } from "../../address/base/AddressWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
 
 @InputType()
-class OrderItemUpdateManyWithoutProductsInput {
-  @Field(() => [OrderItemWhereUniqueInput], {
+class AddressUpdateManyWithoutContactPeopleInput {
+  @Field(() => [AddressWhereUniqueInput], {
     nullable: true,
   })
   @ApiProperty({
     required: false,
-    type: () => [OrderItemWhereUniqueInput],
+    type: () => [AddressWhereUniqueInput],
   })
-  connect?: Array<OrderItemWhereUniqueInput>;
+  connect?: Array<AddressWhereUniqueInput>;
 
-  @Field(() => [OrderItemWhereUniqueInput], {
+  @Field(() => [AddressWhereUniqueInput], {
     nullable: true,
   })
   @ApiProperty({
     required: false,
-    type: () => [OrderItemWhereUniqueInput],
+    type: () => [AddressWhereUniqueInput],
   })
-  disconnect?: Array<OrderItemWhereUniqueInput>;
+  disconnect?: Array<AddressWhereUniqueInput>;
 
-  @Field(() => [OrderItemWhereUniqueInput], {
+  @Field(() => [AddressWhereUniqueInput], {
     nullable: true,
   })
   @ApiProperty({
     required: false,
-    type: () => [OrderItemWhereUniqueInput],
+    type: () => [AddressWhereUniqueInput],
   })
-  set?: Array<OrderItemWhereUniqueInput>;
+  set?: Array<AddressWhereUniqueInput>;
 }
 
-export { OrderItemUpdateManyWithoutProductsInput as OrderItemUpdateManyWithoutProductsInput };
+export { AddressUpdateManyWithoutContactPeopleInput as AddressUpdateManyWithoutContactPeopleInput };

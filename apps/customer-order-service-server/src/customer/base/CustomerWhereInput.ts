@@ -14,9 +14,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { AddressListRelationFilter } from "../../address/base/AddressListRelationFilter";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { StringFilter } from "../../util/StringFilter";
 import { ContactPersonListRelationFilter } from "../../contactPerson/base/ContactPersonListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { StringFilter } from "../../util/StringFilter";
 
 @InputType()
 class CustomerWhereInput {
@@ -31,6 +31,28 @@ class CustomerWhereInput {
     nullable: true,
   })
   addresses?: AddressListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  companyName?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  companyOrganizationNumber?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -53,17 +75,6 @@ class CustomerWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  firstName?: StringNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: StringNullableFilter,
-  })
-  @Type(() => StringNullableFilter)
-  @IsOptional()
-  @Field(() => StringNullableFilter, {
-    nullable: true,
-  })
   homepage?: StringNullableFilter;
 
   @ApiProperty({
@@ -76,17 +87,6 @@ class CustomerWhereInput {
     nullable: true,
   })
   id?: StringFilter;
-
-  @ApiProperty({
-    required: false,
-    type: StringNullableFilter,
-  })
-  @Type(() => StringNullableFilter)
-  @IsOptional()
-  @Field(() => StringNullableFilter, {
-    nullable: true,
-  })
-  lastName?: StringNullableFilter;
 }
 
 export { CustomerWhereInput as CustomerWhereInput };

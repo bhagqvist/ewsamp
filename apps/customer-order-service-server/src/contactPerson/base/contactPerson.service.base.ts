@@ -14,6 +14,7 @@ import { PrismaService } from "../../prisma/prisma.service";
 import {
   Prisma,
   ContactPerson as PrismaContactPerson,
+  Address as PrismaAddress,
   Order as PrismaOrder,
   Customer as PrismaCustomer,
 } from "@prisma/client";
@@ -51,6 +52,17 @@ export class ContactPersonServiceBase {
     args: Prisma.ContactPersonDeleteArgs
   ): Promise<PrismaContactPerson> {
     return this.prisma.contactPerson.delete(args);
+  }
+
+  async findAddresses(
+    parentId: string,
+    args: Prisma.AddressFindManyArgs
+  ): Promise<PrismaAddress[]> {
+    return this.prisma.contactPerson
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .addresses(args);
   }
 
   async findOrders(

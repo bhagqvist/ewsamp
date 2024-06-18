@@ -3,8 +3,8 @@ import { ContactPersonUpdateManyWithoutCustomersInput } from "./ContactPersonUpd
 
 export type CustomerUpdateInput = {
   addresses?: AddressUpdateManyWithoutCustomersInput;
+  companyName?: string;
+  companyOrganizationNumber?: string;
   contactPeople?: ContactPersonUpdateManyWithoutCustomersInput;
-  firstName?: string | null;
   homepage?: string | null;
-  lastName?: string | null;
 };

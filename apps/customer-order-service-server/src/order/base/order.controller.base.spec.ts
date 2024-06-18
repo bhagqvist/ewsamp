@@ -19,14 +19,18 @@ const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
   createdAt: new Date(),
+  deliveryDate: new Date(),
   id: "exampleId",
+  note: "exampleNote",
   orderDate: new Date(),
   totalAmount: 42.42,
   updatedAt: new Date(),
 };
 const CREATE_RESULT = {
   createdAt: new Date(),
+  deliveryDate: new Date(),
   id: "exampleId",
+  note: "exampleNote",
   orderDate: new Date(),
   totalAmount: 42.42,
   updatedAt: new Date(),
@@ -34,7 +38,9 @@ const CREATE_RESULT = {
 const FIND_MANY_RESULT = [
   {
     createdAt: new Date(),
+    deliveryDate: new Date(),
     id: "exampleId",
+    note: "exampleNote",
     orderDate: new Date(),
     totalAmount: 42.42,
     updatedAt: new Date(),
@@ -42,7 +48,9 @@ const FIND_MANY_RESULT = [
 ];
 const FIND_ONE_RESULT = {
   createdAt: new Date(),
+  deliveryDate: new Date(),
   id: "exampleId",
+  note: "exampleNote",
   orderDate: new Date(),
   totalAmount: 42.42,
   updatedAt: new Date(),
@@ -131,6 +139,7 @@ describe("Order", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        deliveryDate: CREATE_RESULT.deliveryDate.toISOString(),
         orderDate: CREATE_RESULT.orderDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       });
@@ -144,6 +153,7 @@ describe("Order", () => {
         {
           ...FIND_MANY_RESULT[0],
           createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
+          deliveryDate: FIND_MANY_RESULT[0].deliveryDate.toISOString(),
           orderDate: FIND_MANY_RESULT[0].orderDate.toISOString(),
           updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
         },
@@ -168,6 +178,7 @@ describe("Order", () => {
       .expect({
         ...FIND_ONE_RESULT,
         createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
+        deliveryDate: FIND_ONE_RESULT.deliveryDate.toISOString(),
         orderDate: FIND_ONE_RESULT.orderDate.toISOString(),
         updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
       });
@@ -182,6 +193,7 @@ describe("Order", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        deliveryDate: CREATE_RESULT.deliveryDate.toISOString(),
         orderDate: CREATE_RESULT.orderDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       })

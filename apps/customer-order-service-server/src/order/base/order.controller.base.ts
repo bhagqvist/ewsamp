@@ -52,7 +52,9 @@ export class OrderControllerBase {
         },
 
         createdAt: true,
+        deliveryDate: true,
         id: true,
+        note: true,
         orderDate: true,
         status: true,
         totalAmount: true,
@@ -76,7 +78,9 @@ export class OrderControllerBase {
         },
 
         createdAt: true,
+        deliveryDate: true,
         id: true,
+        note: true,
         orderDate: true,
         status: true,
         totalAmount: true,
@@ -101,7 +105,9 @@ export class OrderControllerBase {
         },
 
         createdAt: true,
+        deliveryDate: true,
         id: true,
+        note: true,
         orderDate: true,
         status: true,
         totalAmount: true,
@@ -143,7 +149,9 @@ export class OrderControllerBase {
           },
 
           createdAt: true,
+          deliveryDate: true,
           id: true,
+          note: true,
           orderDate: true,
           status: true,
           totalAmount: true,
@@ -177,7 +185,9 @@ export class OrderControllerBase {
           },
 
           createdAt: true,
+          deliveryDate: true,
           id: true,
+          note: true,
           orderDate: true,
           status: true,
           totalAmount: true,
@@ -214,14 +224,9 @@ export class OrderControllerBase {
           },
         },
 
+        position: true,
         price: true,
-
-        product: {
-          select: {
-            id: true,
-          },
-        },
-
+        product: true,
         quantity: true,
         updatedAt: true,
       },

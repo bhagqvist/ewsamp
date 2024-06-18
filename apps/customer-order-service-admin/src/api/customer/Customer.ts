@@ -3,11 +3,11 @@ import { ContactPerson } from "../contactPerson/ContactPerson";
 
 export type Customer = {
   addresses?: Array<Address>;
+  companyName: string;
+  companyOrganizationNumber: string;
   contactPeople?: Array<ContactPerson>;
   createdAt: Date;
-  firstName: string | null;
   homepage: string | null;
   id: string;
-  lastName: string | null;
   updatedAt: Date;
 };

@@ -9,10 +9,20 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
+import { Shipping } from "../../shipping/base/Shipping";
 import { registerEnumType } from "@nestjs/graphql";
 
 export enum EnumOrderStatus {
-  Option_1 = "Option1",
+  Recieved = "Recieved",
+  Confirmed = "Confirmed",
+  Engineering = "Engineering",
+  Workshop = "Workshop",
+  Shipping = "Shipping",
+  Delayed = "Delayed",
+  InvoiceIssued = "InvoiceIssued",
+  AwaitingPayment = "AwaitingPayment",
+  Completed = "Completed",
+  Other = "Other",
 }
 
 registerEnumType(EnumOrderStatus, {

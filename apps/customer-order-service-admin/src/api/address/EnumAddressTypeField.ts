@@ -1,3 +1,8 @@
+import { Shipping } from "../shipping/Shipping";
+
 export enum EnumAddressTypeField {
-  Option_1 = "Option1",
+  Postal = "Postal",
+  Visiting = "Visiting",
+  Shipping = "Shipping",
+  Billing = "Billing",
 }

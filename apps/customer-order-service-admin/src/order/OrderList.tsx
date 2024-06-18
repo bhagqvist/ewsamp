@@ -28,7 +28,9 @@ export const OrderList = (props: ListProps): React.ReactElement => {
           <TextField source={CONTACTPERSON_TITLE_FIELD} />
         </ReferenceField>
         <DateField source="createdAt" label="Created At" />
+        <TextField label="Delivery Date" source="deliveryDate" />
         <TextField label="ID" source="id" />
+        <TextField label="Note" source="note" />
         <TextField label="orderDate" source="orderDate" />
         <TextField label="status" source="status" />
         <TextField label="totalAmount" source="totalAmount" />

@@ -31,6 +31,22 @@ class CustomerCreateInput {
   addresses?: AddressCreateNestedManyWithoutCustomersInput;
 
   @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  companyName!: string;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  companyOrganizationNumber!: string;
+
+  @ApiProperty({
     required: false,
     type: () => ContactPersonCreateNestedManyWithoutCustomersInput,
   })
@@ -51,29 +67,7 @@ class CustomerCreateInput {
   @Field(() => String, {
     nullable: true,
   })
-  firstName?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
   homepage?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  lastName?: string | null;
 }
 
 export { CustomerCreateInput as CustomerCreateInput };

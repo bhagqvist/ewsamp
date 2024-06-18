@@ -20,6 +20,7 @@ import { AddressFindUniqueArgs } from "./AddressFindUniqueArgs";
 import { CreateAddressArgs } from "./CreateAddressArgs";
 import { UpdateAddressArgs } from "./UpdateAddressArgs";
 import { DeleteAddressArgs } from "./DeleteAddressArgs";
+import { ContactPerson } from "../../contactPerson/base/ContactPerson";
 import { Customer } from "../../customer/base/Customer";
 import { AddressService } from "../address.service";
 @graphql.Resolver(() => Address)
@@ -62,6 +63,12 @@ export class AddressResolverBase {
       data: {
         ...args.data,
 
+        contactPeople: args.data.contactPeople
+          ? {
+              connect: args.data.contactPeople,
+            }
+          : undefined,
+
         customer: args.data.customer
           ? {
               connect: args.data.customer,
@@ -80,6 +87,12 @@ export class AddressResolverBase {
         ...args,
         data: {
           ...args.data,
+
+          contactPeople: args.data.contactPeople
+            ? {
+                connect: args.data.contactPeople,
+              }
+            : undefined,
 
           customer: args.data.customer
             ? {
@@ -112,6 +125,21 @@ export class AddressResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => ContactPerson, {
+    nullable: true,
+    name: "contactPeople",
+  })
+  async getContactPeople(
+    @graphql.Parent() parent: Address
+  ): Promise<ContactPerson | null> {
+    const result = await this.service.getContactPeople(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 
   @graphql.ResolveField(() => Customer, {

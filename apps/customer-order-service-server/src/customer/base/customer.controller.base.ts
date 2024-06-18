@@ -39,11 +39,11 @@ export class CustomerControllerBase {
     return await this.service.createCustomer({
       data: data,
       select: {
+        companyName: true,
+        companyOrganizationNumber: true,
         createdAt: true,
-        firstName: true,
         homepage: true,
         id: true,
-        lastName: true,
         updatedAt: true,
       },
     });
@@ -57,11 +57,11 @@ export class CustomerControllerBase {
     return this.service.customers({
       ...args,
       select: {
+        companyName: true,
+        companyOrganizationNumber: true,
         createdAt: true,
-        firstName: true,
         homepage: true,
         id: true,
-        lastName: true,
         updatedAt: true,
       },
     });
@@ -76,11 +76,11 @@ export class CustomerControllerBase {
     const result = await this.service.customer({
       where: params,
       select: {
+        companyName: true,
+        companyOrganizationNumber: true,
         createdAt: true,
-        firstName: true,
         homepage: true,
         id: true,
-        lastName: true,
         updatedAt: true,
       },
     });
@@ -104,11 +104,11 @@ export class CustomerControllerBase {
         where: params,
         data: data,
         select: {
+          companyName: true,
+          companyOrganizationNumber: true,
           createdAt: true,
-          firstName: true,
           homepage: true,
           id: true,
-          lastName: true,
           updatedAt: true,
         },
       });
@@ -132,11 +132,11 @@ export class CustomerControllerBase {
       return await this.service.deleteCustomer({
         where: params,
         select: {
+          companyName: true,
+          companyOrganizationNumber: true,
           createdAt: true,
-          firstName: true,
           homepage: true,
           id: true,
-          lastName: true,
           updatedAt: true,
         },
       });
@@ -161,6 +161,17 @@ export class CustomerControllerBase {
       ...query,
       select: {
         address: true,
+        address2: true,
+        city: true,
+
+        contactPeople: {
+          select: {
+            id: true,
+          },
+        },
+
+        country: true,
+        countrycode: true,
         createdAt: true,
 
         customer: {
@@ -172,6 +183,7 @@ export class CustomerControllerBase {
         id: true,
         typeField: true,
         updatedAt: true,
+        zipCode: true,
       },
     });
     if (results === null) {
@@ -251,6 +263,7 @@ export class CustomerControllerBase {
           },
         },
 
+        department: true,
         email: true,
         firstName: true,
         id: true,

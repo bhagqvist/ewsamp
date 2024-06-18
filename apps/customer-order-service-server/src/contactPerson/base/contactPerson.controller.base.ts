@@ -22,6 +22,9 @@ import { ContactPerson } from "./ContactPerson";
 import { ContactPersonFindManyArgs } from "./ContactPersonFindManyArgs";
 import { ContactPersonWhereUniqueInput } from "./ContactPersonWhereUniqueInput";
 import { ContactPersonUpdateInput } from "./ContactPersonUpdateInput";
+import { AddressFindManyArgs } from "../../address/base/AddressFindManyArgs";
+import { Address } from "../../address/base/Address";
+import { AddressWhereUniqueInput } from "../../address/base/AddressWhereUniqueInput";
 import { OrderFindManyArgs } from "../../order/base/OrderFindManyArgs";
 import { Order } from "../../order/base/Order";
 import { OrderWhereUniqueInput } from "../../order/base/OrderWhereUniqueInput";
@@ -52,6 +55,7 @@ export class ContactPersonControllerBase {
           },
         },
 
+        department: true,
         email: true,
         firstName: true,
         id: true,
@@ -80,6 +84,7 @@ export class ContactPersonControllerBase {
           },
         },
 
+        department: true,
         email: true,
         firstName: true,
         id: true,
@@ -107,6 +112,7 @@ export class ContactPersonControllerBase {
           },
         },
 
+        department: true,
         email: true,
         firstName: true,
         id: true,
@@ -151,6 +157,7 @@ export class ContactPersonControllerBase {
             },
           },
 
+          department: true,
           email: true,
           firstName: true,
           id: true,
@@ -187,6 +194,7 @@ export class ContactPersonControllerBase {
             },
           },
 
+          department: true,
           email: true,
           firstName: true,
           id: true,
@@ -203,6 +211,101 @@ export class ContactPersonControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/addresses")
+  @ApiNestedQuery(AddressFindManyArgs)
+  async findAddresses(
+    @common.Req() request: Request,
+    @common.Param() params: ContactPersonWhereUniqueInput
+  ): Promise<Address[]> {
+    const query = plainToClass(AddressFindManyArgs, request.query);
+    const results = await this.service.findAddresses(params.id, {
+      ...query,
+      select: {
+        address: true,
+        address2: true,
+        city: true,
+
+        contactPeople: {
+          select: {
+            id: true,
+          },
+        },
+
+        country: true,
+        countrycode: true,
+        createdAt: true,
+
+        customer: {
+          select: {
+            id: true,
+          },
+        },
+
+        id: true,
+        typeField: true,
+        updatedAt: true,
+        zipCode: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/addresses")
+  async connectAddresses(
+    @common.Param() params: ContactPersonWhereUniqueInput,
+    @common.Body() body: AddressWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      addresses: {
+        connect: body,
+      },
+    };
+    await this.service.updateContactPerson({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/addresses")
+  async updateAddresses(
+    @common.Param() params: ContactPersonWhereUniqueInput,
+    @common.Body() body: AddressWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      addresses: {
+        set: body,
+      },
+    };
+    await this.service.updateContactPerson({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/addresses")
+  async disconnectAddresses(
+    @common.Param() params: ContactPersonWhereUniqueInput,
+    @common.Body() body: AddressWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      addresses: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateContactPerson({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 
   @common.Get("/:id/orders")
@@ -222,7 +325,9 @@ export class ContactPersonControllerBase {
         },
 
         createdAt: true,
+        deliveryDate: true,
         id: true,
+        note: true,
         orderDate: true,
         status: true,
         totalAmount: true,

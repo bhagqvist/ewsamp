@@ -11,7 +11,9 @@ model Order {
   contactPerson   ContactPerson?   @relation(fields: [contactPersonId], references: [id])
   contactPersonId String?
   createdAt       DateTime         @default(now())
+  deliveryDate    DateTime?
   id              String           @id @default(cuid())
+  note            String?
   orderDate       DateTime?
   orderItems      OrderItem[]
   shippings       Shipping[]
@@ -21,9 +23,11 @@ model Order {
 }
 
 model ContactPerson {
+  addresses  Address[]
   createdAt  DateTime  @default(now())
   customer   Customer? @relation(fields: [customerId], references: [id])
   customerId String?
+  department String?
   email      String?
   firstName  String?
   id         String    @id @default(cuid())
@@ -33,25 +37,25 @@ model ContactPerson {
   updatedAt  DateTime  @updatedAt
 }
 
-model Product {
-  createdAt   DateTime    @default(now())
-  description String?
-  id          String      @id @default(cuid())
-  name        String?
-  orderItems  OrderItem[]
-  price       Float?
-  updatedAt   DateTime    @updatedAt
+model Customer {
+  addresses                 Address[]
+  companyName               String          @unique
+  companyOrganizationNumber String          @unique
+  contactPeople             ContactPerson[]
+  createdAt                 DateTime        @default(now())
+  homepage                  String?
+  id                        String          @id @default(cuid())
+  updatedAt                 DateTime        @updatedAt
 }
 
-model Customer {
-  addresses     Address[]
-  contactPeople ContactPerson[]
-  createdAt     DateTime        @default(now())
-  firstName     String?
-  homepage      String?
-  id            String          @id @default(cuid())
-  lastName      String?
-  updatedAt     DateTime        @updatedAt
+model Product {
+  createdAt     DateTime @default(now())
+  description   String?
+  id            String   @id @default(cuid())
+  name          String?
+  price         Float?
+  productNumber String   @unique
+  updatedAt     DateTime @updatedAt
 }
 
 model OrderItem {
@@ -60,10 +64,10 @@ model OrderItem {
   id           String    @id @default(cuid())
   order        Order?    @relation(fields: [orderId], references: [id])
   orderId      String?
+  position     Int?
   price        Float?
-  product      Product?  @relation(fields: [productId], references: [id])
-  productId    String?
-  quantity     Int?
+  product      Int?
+  quantity     Int
   updatedAt    DateTime  @updatedAt
 }
 
@@ -84,23 +88,40 @@ model Employee {
   email     String?
   firstName String?
   id        String            @id @default(cuid())
+  initials  String            @unique
   lastName  String?
   role      EnumEmployeeRole?
   updatedAt DateTime          @updatedAt
 }
 
 model Address {
-  address    String?
-  createdAt  DateTime              @default(now())
-  customer   Customer?             @relation(fields: [customerId], references: [id])
-  customerId String?
-  id         String                @id @default(cuid())
-  typeField  EnumAddressTypeField?
-  updatedAt  DateTime              @updatedAt
+  address         String
+  address2        String?
+  city            String?
+  contactPeople   ContactPerson?        @relation(fields: [contactPeopleId], references: [id])
+  contactPeopleId String?
+  country         String?
+  countrycode     String?
+  createdAt       DateTime              @default(now())
+  customer        Customer?             @relation(fields: [customerId], references: [id])
+  customerId      String?
+  id              String                @id @default(cuid())
+  typeField       EnumAddressTypeField?
+  updatedAt       DateTime              @updatedAt
+  zipCode         String?
 }
 
 enum EnumOrderStatus {
-  Option1
+  Recieved
+  Confirmed
+  Engineering
+  Workshop
+  Shipping
+  Delayed
+  InvoiceIssued
+  AwaitingPayment
+  Completed
+  Other
 }
 
 enum EnumShippingDeliveryStatus {
@@ -112,5 +133,8 @@ enum EnumEmployeeRole {
 }
 
 enum EnumAddressTypeField {
-  Option1
+  Postal
+  Visiting
+  Shipping
+  Billing
 }

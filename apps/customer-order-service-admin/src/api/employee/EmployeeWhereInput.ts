@@ -5,6 +5,7 @@ export type EmployeeWhereInput = {
   email?: StringNullableFilter;
   firstName?: StringNullableFilter;
   id?: StringFilter;
+  initials?: StringFilter;
   lastName?: StringNullableFilter;
   role?: "Option1";
 };

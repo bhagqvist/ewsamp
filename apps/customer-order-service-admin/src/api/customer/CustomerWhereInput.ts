@@ -1,13 +1,13 @@
 import { AddressListRelationFilter } from "../address/AddressListRelationFilter";
+import { StringFilter } from "../../util/StringFilter";
 import { ContactPersonListRelationFilter } from "../contactPerson/ContactPersonListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { StringFilter } from "../../util/StringFilter";
 
 export type CustomerWhereInput = {
   addresses?: AddressListRelationFilter;
+  companyName?: StringFilter;
+  companyOrganizationNumber?: StringFilter;
   contactPeople?: ContactPersonListRelationFilter;
-  firstName?: StringNullableFilter;
   homepage?: StringNullableFilter;
   id?: StringFilter;
-  lastName?: StringNullableFilter;
 };

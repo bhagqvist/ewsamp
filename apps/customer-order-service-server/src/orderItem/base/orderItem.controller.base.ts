@@ -39,12 +39,6 @@ export class OrderItemControllerBase {
               connect: data.order,
             }
           : undefined,
-
-        product: data.product
-          ? {
-              connect: data.product,
-            }
-          : undefined,
       },
       select: {
         createdAt: true,
@@ -57,14 +51,9 @@ export class OrderItemControllerBase {
           },
         },
 
+        position: true,
         price: true,
-
-        product: {
-          select: {
-            id: true,
-          },
-        },
-
+        product: true,
         quantity: true,
         updatedAt: true,
       },
@@ -89,14 +78,9 @@ export class OrderItemControllerBase {
           },
         },
 
+        position: true,
         price: true,
-
-        product: {
-          select: {
-            id: true,
-          },
-        },
-
+        product: true,
         quantity: true,
         updatedAt: true,
       },
@@ -122,14 +106,9 @@ export class OrderItemControllerBase {
           },
         },
 
+        position: true,
         price: true,
-
-        product: {
-          select: {
-            id: true,
-          },
-        },
-
+        product: true,
         quantity: true,
         updatedAt: true,
       },
@@ -160,12 +139,6 @@ export class OrderItemControllerBase {
                 connect: data.order,
               }
             : undefined,
-
-          product: data.product
-            ? {
-                connect: data.product,
-              }
-            : undefined,
         },
         select: {
           createdAt: true,
@@ -178,14 +151,9 @@ export class OrderItemControllerBase {
             },
           },
 
+          position: true,
           price: true,
-
-          product: {
-            select: {
-              id: true,
-            },
-          },
-
+          product: true,
           quantity: true,
           updatedAt: true,
         },
@@ -220,14 +188,9 @@ export class OrderItemControllerBase {
             },
           },
 
+          position: true,
           price: true,
-
-          product: {
-            select: {
-              id: true,
-            },
-          },
-
+          product: true,
           quantity: true,
           updatedAt: true,
         },

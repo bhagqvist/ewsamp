@@ -20,6 +20,8 @@ import { ContactPersonFindUniqueArgs } from "./ContactPersonFindUniqueArgs";
 import { CreateContactPersonArgs } from "./CreateContactPersonArgs";
 import { UpdateContactPersonArgs } from "./UpdateContactPersonArgs";
 import { DeleteContactPersonArgs } from "./DeleteContactPersonArgs";
+import { AddressFindManyArgs } from "../../address/base/AddressFindManyArgs";
+import { Address } from "../../address/base/Address";
 import { OrderFindManyArgs } from "../../order/base/OrderFindManyArgs";
 import { Order } from "../../order/base/Order";
 import { Customer } from "../../customer/base/Customer";
@@ -114,6 +116,20 @@ export class ContactPersonResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Address], { name: "addresses" })
+  async findAddresses(
+    @graphql.Parent() parent: ContactPerson,
+    @graphql.Args() args: AddressFindManyArgs
+  ): Promise<Address[]> {
+    const results = await this.service.findAddresses(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @graphql.ResolveField(() => [Order], { name: "orders" })

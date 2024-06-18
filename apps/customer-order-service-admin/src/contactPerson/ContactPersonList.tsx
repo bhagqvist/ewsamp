@@ -28,6 +28,7 @@ export const ContactPersonList = (props: ListProps): React.ReactElement => {
         >
           <TextField source={CUSTOMER_TITLE_FIELD} />
         </ReferenceField>
+        <TextField label="Department" source="department" />
         <TextField label="email" source="email" />
         <TextField label="firstName" source="firstName" />
         <TextField label="ID" source="id" />

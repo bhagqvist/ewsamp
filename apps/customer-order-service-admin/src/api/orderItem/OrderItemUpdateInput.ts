@@ -1,10 +1,10 @@
 import { OrderWhereUniqueInput } from "../order/OrderWhereUniqueInput";
-import { ProductWhereUniqueInput } from "../product/ProductWhereUniqueInput";
 
 export type OrderItemUpdateInput = {
   deliveryDate?: Date | null;
   order?: OrderWhereUniqueInput | null;
+  position?: number | null;
   price?: number | null;
-  product?: ProductWhereUniqueInput | null;
-  quantity?: number | null;
+  product?: number | null;
+  quantity?: number;
 };

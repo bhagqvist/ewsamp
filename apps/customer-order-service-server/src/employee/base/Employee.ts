@@ -56,6 +56,14 @@ class Employee {
   id!: string;
 
   @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  initials!: string;
+
+  @ApiProperty({
     required: false,
     type: String,
   })

@@ -12,8 +12,9 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsOptional, ValidateNested, IsEnum } from "class-validator";
-import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
+import { ContactPersonWhereUniqueInput } from "../../contactPerson/base/ContactPersonWhereUniqueInput";
 import { Type } from "class-transformer";
+import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
 import { EnumAddressTypeField } from "./EnumAddressTypeField";
 
 @InputType()
@@ -27,7 +28,63 @@ class AddressUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  address?: string | null;
+  address?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  address2?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  city?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ContactPersonWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => ContactPersonWhereUniqueInput)
+  @IsOptional()
+  @Field(() => ContactPersonWhereUniqueInput, {
+    nullable: true,
+  })
+  contactPeople?: ContactPersonWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  country?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  countrycode?: string | null;
 
   @ApiProperty({
     required: false,
@@ -50,7 +107,18 @@ class AddressUpdateInput {
   @Field(() => EnumAddressTypeField, {
     nullable: true,
   })
-  typeField?: "Option1" | null;
+  typeField?: "Postal" | "Visiting" | "Shipping" | "Billing" | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  zipCode?: string | null;
 }
 
 export { AddressUpdateInput as AddressUpdateInput };

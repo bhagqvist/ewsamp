@@ -45,12 +45,34 @@ class Order {
   createdAt!: Date;
 
   @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  deliveryDate!: Date | null;
+
+  @ApiProperty({
     required: true,
     type: String,
   })
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  note!: string | null;
 
   @ApiProperty({
     required: false,
@@ -90,7 +112,18 @@ class Order {
   @Field(() => EnumOrderStatus, {
     nullable: true,
   })
-  status?: "Option1" | null;
+  status?:
+    | "Recieved"
+    | "Confirmed"
+    | "Engineering"
+    | "Workshop"
+    | "Shipping"
+    | "Delayed"
+    | "InvoiceIssued"
+    | "AwaitingPayment"
+    | "Completed"
+    | "Other"
+    | null;
 
   @ApiProperty({
     required: false,

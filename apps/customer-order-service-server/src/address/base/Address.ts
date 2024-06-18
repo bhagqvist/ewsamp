@@ -14,16 +14,25 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   IsString,
   IsOptional,
-  IsDate,
   ValidateNested,
+  IsDate,
   IsEnum,
 } from "class-validator";
+import { ContactPerson } from "../../contactPerson/base/ContactPerson";
 import { Type } from "class-transformer";
 import { Customer } from "../../customer/base/Customer";
 import { EnumAddressTypeField } from "./EnumAddressTypeField";
 
 @ObjectType()
 class Address {
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  address!: string;
+
   @ApiProperty({
     required: false,
     type: String,
@@ -33,7 +42,49 @@ class Address {
   @Field(() => String, {
     nullable: true,
   })
-  address!: string | null;
+  address2!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  city!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ContactPerson,
+  })
+  @ValidateNested()
+  @Type(() => ContactPerson)
+  @IsOptional()
+  contactPeople?: ContactPerson | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  country!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  countrycode!: string | null;
 
   @ApiProperty({
     required: true,
@@ -69,7 +120,7 @@ class Address {
   @Field(() => EnumAddressTypeField, {
     nullable: true,
   })
-  typeField?: "Option1" | null;
+  typeField?: "Postal" | "Visiting" | "Shipping" | "Billing" | null;
 
   @ApiProperty({
     required: true,
@@ -78,6 +129,17 @@ class Address {
   @Type(() => Date)
   @Field(() => Date)
   updatedAt!: Date;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  zipCode!: string | null;
 }
 
 export { Address as Address };

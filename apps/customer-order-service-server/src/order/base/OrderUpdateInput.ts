@@ -16,6 +16,7 @@ import {
   ValidateNested,
   IsOptional,
   IsDate,
+  IsString,
   IsEnum,
   IsNumber,
 } from "class-validator";
@@ -37,6 +38,28 @@ class OrderUpdateInput {
     nullable: true,
   })
   contactPerson?: ContactPersonWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  deliveryDate?: Date | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  note?: string | null;
 
   @ApiProperty({
     required: false,
@@ -82,7 +105,18 @@ class OrderUpdateInput {
   @Field(() => EnumOrderStatus, {
     nullable: true,
   })
-  status?: "Option1" | null;
+  status?:
+    | "Recieved"
+    | "Confirmed"
+    | "Engineering"
+    | "Workshop"
+    | "Shipping"
+    | "Delayed"
+    | "InvoiceIssued"
+    | "AwaitingPayment"
+    | "Completed"
+    | "Other"
+    | null;
 
   @ApiProperty({
     required: false,

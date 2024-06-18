@@ -22,9 +22,6 @@ import { Product } from "./Product";
 import { ProductFindManyArgs } from "./ProductFindManyArgs";
 import { ProductWhereUniqueInput } from "./ProductWhereUniqueInput";
 import { ProductUpdateInput } from "./ProductUpdateInput";
-import { OrderItemFindManyArgs } from "../../orderItem/base/OrderItemFindManyArgs";
-import { OrderItem } from "../../orderItem/base/OrderItem";
-import { OrderItemWhereUniqueInput } from "../../orderItem/base/OrderItemWhereUniqueInput";
 
 export class ProductControllerBase {
   constructor(protected readonly service: ProductService) {}
@@ -41,6 +38,7 @@ export class ProductControllerBase {
         id: true,
         name: true,
         price: true,
+        productNumber: true,
         updatedAt: true,
       },
     });
@@ -59,6 +57,7 @@ export class ProductControllerBase {
         id: true,
         name: true,
         price: true,
+        productNumber: true,
         updatedAt: true,
       },
     });
@@ -78,6 +77,7 @@ export class ProductControllerBase {
         id: true,
         name: true,
         price: true,
+        productNumber: true,
         updatedAt: true,
       },
     });
@@ -106,6 +106,7 @@ export class ProductControllerBase {
           id: true,
           name: true,
           price: true,
+          productNumber: true,
           updatedAt: true,
         },
       });
@@ -134,6 +135,7 @@ export class ProductControllerBase {
           id: true,
           name: true,
           price: true,
+          productNumber: true,
           updatedAt: true,
         },
       });
@@ -145,96 +147,5 @@ export class ProductControllerBase {
       }
       throw error;
     }
-  }
-
-  @common.Get("/:id/orderItems")
-  @ApiNestedQuery(OrderItemFindManyArgs)
-  async findOrderItems(
-    @common.Req() request: Request,
-    @common.Param() params: ProductWhereUniqueInput
-  ): Promise<OrderItem[]> {
-    const query = plainToClass(OrderItemFindManyArgs, request.query);
-    const results = await this.service.findOrderItems(params.id, {
-      ...query,
-      select: {
-        createdAt: true,
-        deliveryDate: true,
-        id: true,
-
-        order: {
-          select: {
-            id: true,
-          },
-        },
-
-        price: true,
-
-        product: {
-          select: {
-            id: true,
-          },
-        },
-
-        quantity: true,
-        updatedAt: true,
-      },
-    });
-    if (results === null) {
-      throw new errors.NotFoundException(
-        `No resource was found for ${JSON.stringify(params)}`
-      );
-    }
-    return results;
-  }
-
-  @common.Post("/:id/orderItems")
-  async connectOrderItems(
-    @common.Param() params: ProductWhereUniqueInput,
-    @common.Body() body: OrderItemWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      orderItems: {
-        connect: body,
-      },
-    };
-    await this.service.updateProduct({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Patch("/:id/orderItems")
-  async updateOrderItems(
-    @common.Param() params: ProductWhereUniqueInput,
-    @common.Body() body: OrderItemWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      orderItems: {
-        set: body,
-      },
-    };
-    await this.service.updateProduct({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/orderItems")
-  async disconnectOrderItems(
-    @common.Param() params: ProductWhereUniqueInput,
-    @common.Body() body: OrderItemWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      orderItems: {
-        disconnect: body,
-      },
-    };
-    await this.service.updateProduct({
-      where: params,
-      data,
-      select: { id: true },
-    });
   }
 }

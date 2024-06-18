@@ -5,6 +5,7 @@ export type EmployeeOrderByInput = {
   email?: SortOrder;
   firstName?: SortOrder;
   id?: SortOrder;
+  initials?: SortOrder;
   lastName?: SortOrder;
   role?: SortOrder;
   updatedAt?: SortOrder;

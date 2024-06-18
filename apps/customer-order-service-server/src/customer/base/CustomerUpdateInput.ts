@@ -32,6 +32,28 @@ class CustomerUpdateInput {
 
   @ApiProperty({
     required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  companyName?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  companyOrganizationNumber?: string;
+
+  @ApiProperty({
+    required: false,
     type: () => ContactPersonUpdateManyWithoutCustomersInput,
   })
   @ValidateNested()
@@ -51,29 +73,7 @@ class CustomerUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  firstName?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
   homepage?: string | null;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  lastName?: string | null;
 }
 
 export { CustomerUpdateInput as CustomerUpdateInput };

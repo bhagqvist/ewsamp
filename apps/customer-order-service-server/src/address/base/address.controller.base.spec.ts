@@ -19,29 +19,49 @@ const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
   address: "exampleAddress",
+  address2: "exampleAddress2",
+  city: "exampleCity",
+  country: "exampleCountry",
+  countrycode: "exampleCountrycode",
   createdAt: new Date(),
   id: "exampleId",
   updatedAt: new Date(),
+  zipCode: "exampleZipCode",
 };
 const CREATE_RESULT = {
   address: "exampleAddress",
+  address2: "exampleAddress2",
+  city: "exampleCity",
+  country: "exampleCountry",
+  countrycode: "exampleCountrycode",
   createdAt: new Date(),
   id: "exampleId",
   updatedAt: new Date(),
+  zipCode: "exampleZipCode",
 };
 const FIND_MANY_RESULT = [
   {
     address: "exampleAddress",
+    address2: "exampleAddress2",
+    city: "exampleCity",
+    country: "exampleCountry",
+    countrycode: "exampleCountrycode",
     createdAt: new Date(),
     id: "exampleId",
     updatedAt: new Date(),
+    zipCode: "exampleZipCode",
   },
 ];
 const FIND_ONE_RESULT = {
   address: "exampleAddress",
+  address2: "exampleAddress2",
+  city: "exampleCity",
+  country: "exampleCountry",
+  countrycode: "exampleCountrycode",
   createdAt: new Date(),
   id: "exampleId",
   updatedAt: new Date(),
+  zipCode: "exampleZipCode",
 };
 
 const service = {

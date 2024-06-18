@@ -1,10 +1,17 @@
-import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { CustomerWhereUniqueInput } from "../customer/CustomerWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { ContactPersonWhereUniqueInput } from "../contactPerson/ContactPersonWhereUniqueInput";
+import { CustomerWhereUniqueInput } from "../customer/CustomerWhereUniqueInput";
 
 export type AddressWhereInput = {
-  address?: StringNullableFilter;
+  address?: StringFilter;
+  address2?: StringNullableFilter;
+  city?: StringNullableFilter;
+  contactPeople?: ContactPersonWhereUniqueInput;
+  country?: StringNullableFilter;
+  countrycode?: StringNullableFilter;
   customer?: CustomerWhereUniqueInput;
   id?: StringFilter;
-  typeField?: "Option1";
+  typeField?: "Postal" | "Visiting" | "Shipping" | "Billing";
+  zipCode?: StringNullableFilter;
 };

@@ -16,6 +16,7 @@ export const EmployeeList = (props: ListProps): React.ReactElement => {
         <TextField label="email" source="email" />
         <TextField label="firstName" source="firstName" />
         <TextField label="ID" source="id" />
+        <TextField label="Initials" source="initials" />
         <TextField label="lastName" source="lastName" />
         <TextField label="role" source="role" />
         <DateField source="updatedAt" label="Updated At" />

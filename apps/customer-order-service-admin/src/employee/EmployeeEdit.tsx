@@ -13,6 +13,7 @@ export const EmployeeEdit = (props: EditProps): React.ReactElement => {
       <SimpleForm>
         <TextInput label="email" source="email" type="email" />
         <TextInput label="firstName" source="firstName" />
+        <TextInput label="Initials" source="initials" />
         <TextInput label="lastName" source="lastName" />
         <SelectInput
           source="role"

@@ -34,6 +34,12 @@ export class AddressControllerBase {
       data: {
         ...data,
 
+        contactPeople: data.contactPeople
+          ? {
+              connect: data.contactPeople,
+            }
+          : undefined,
+
         customer: data.customer
           ? {
               connect: data.customer,
@@ -42,6 +48,17 @@ export class AddressControllerBase {
       },
       select: {
         address: true,
+        address2: true,
+        city: true,
+
+        contactPeople: {
+          select: {
+            id: true,
+          },
+        },
+
+        country: true,
+        countrycode: true,
         createdAt: true,
 
         customer: {
@@ -53,6 +70,7 @@ export class AddressControllerBase {
         id: true,
         typeField: true,
         updatedAt: true,
+        zipCode: true,
       },
     });
   }
@@ -66,6 +84,17 @@ export class AddressControllerBase {
       ...args,
       select: {
         address: true,
+        address2: true,
+        city: true,
+
+        contactPeople: {
+          select: {
+            id: true,
+          },
+        },
+
+        country: true,
+        countrycode: true,
         createdAt: true,
 
         customer: {
@@ -77,6 +106,7 @@ export class AddressControllerBase {
         id: true,
         typeField: true,
         updatedAt: true,
+        zipCode: true,
       },
     });
   }
@@ -91,6 +121,17 @@ export class AddressControllerBase {
       where: params,
       select: {
         address: true,
+        address2: true,
+        city: true,
+
+        contactPeople: {
+          select: {
+            id: true,
+          },
+        },
+
+        country: true,
+        countrycode: true,
         createdAt: true,
 
         customer: {
@@ -102,6 +143,7 @@ export class AddressControllerBase {
         id: true,
         typeField: true,
         updatedAt: true,
+        zipCode: true,
       },
     });
     if (result === null) {
@@ -125,6 +167,12 @@ export class AddressControllerBase {
         data: {
           ...data,
 
+          contactPeople: data.contactPeople
+            ? {
+                connect: data.contactPeople,
+              }
+            : undefined,
+
           customer: data.customer
             ? {
                 connect: data.customer,
@@ -133,6 +181,17 @@ export class AddressControllerBase {
         },
         select: {
           address: true,
+          address2: true,
+          city: true,
+
+          contactPeople: {
+            select: {
+              id: true,
+            },
+          },
+
+          country: true,
+          countrycode: true,
           createdAt: true,
 
           customer: {
@@ -144,6 +203,7 @@ export class AddressControllerBase {
           id: true,
           typeField: true,
           updatedAt: true,
+          zipCode: true,
         },
       });
     } catch (error) {
@@ -167,6 +227,17 @@ export class AddressControllerBase {
         where: params,
         select: {
           address: true,
+          address2: true,
+          city: true,
+
+          contactPeople: {
+            select: {
+              id: true,
+            },
+          },
+
+          country: true,
+          countrycode: true,
           createdAt: true,
 
           customer: {
@@ -178,6 +249,7 @@ export class AddressControllerBase {
           id: true,
           typeField: true,
           updatedAt: true,
+          zipCode: true,
         },
       });
     } catch (error) {

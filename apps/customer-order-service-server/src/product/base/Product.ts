@@ -11,15 +11,8 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsDate,
-  IsString,
-  IsOptional,
-  ValidateNested,
-  IsNumber,
-} from "class-validator";
+import { IsDate, IsString, IsOptional, IsNumber } from "class-validator";
 import { Type } from "class-transformer";
-import { OrderItem } from "../../orderItem/base/OrderItem";
 
 @ObjectType()
 class Product {
@@ -63,15 +56,6 @@ class Product {
 
   @ApiProperty({
     required: false,
-    type: () => [OrderItem],
-  })
-  @ValidateNested()
-  @Type(() => OrderItem)
-  @IsOptional()
-  orderItems?: Array<OrderItem>;
-
-  @ApiProperty({
-    required: false,
     type: Number,
   })
   @IsNumber()
@@ -80,6 +64,14 @@ class Product {
     nullable: true,
   })
   price!: number | null;
+
+  @ApiProperty({
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String)
+  productNumber!: string;
 
   @ApiProperty({
     required: true,

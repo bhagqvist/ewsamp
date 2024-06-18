@@ -17,6 +17,7 @@ export const ProductList = (props: ListProps): React.ReactElement => {
         <TextField label="ID" source="id" />
         <TextField label="name" source="name" />
         <TextField label="price" source="price" />
+        <TextField label="productNumber" source="productNumber" />
         <DateField source="updatedAt" label="Updated At" />
       </Datagrid>
     </List>

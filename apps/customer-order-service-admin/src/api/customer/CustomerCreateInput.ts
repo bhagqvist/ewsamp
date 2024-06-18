@@ -3,8 +3,8 @@ import { ContactPersonCreateNestedManyWithoutCustomersInput } from "./ContactPer
 
 export type CustomerCreateInput = {
   addresses?: AddressCreateNestedManyWithoutCustomersInput;
+  companyName: string;
+  companyOrganizationNumber: string;
   contactPeople?: ContactPersonCreateNestedManyWithoutCustomersInput;
-  firstName?: string | null;
   homepage?: string | null;
-  lastName?: string | null;
 };

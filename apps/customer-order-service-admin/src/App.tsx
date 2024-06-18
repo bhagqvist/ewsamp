@@ -13,14 +13,14 @@ import { ContactPersonList } from "./contactPerson/ContactPersonList";
 import { ContactPersonCreate } from "./contactPerson/ContactPersonCreate";
 import { ContactPersonEdit } from "./contactPerson/ContactPersonEdit";
 import { ContactPersonShow } from "./contactPerson/ContactPersonShow";
-import { ProductList } from "./product/ProductList";
-import { ProductCreate } from "./product/ProductCreate";
-import { ProductEdit } from "./product/ProductEdit";
-import { ProductShow } from "./product/ProductShow";
 import { CustomerList } from "./customer/CustomerList";
 import { CustomerCreate } from "./customer/CustomerCreate";
 import { CustomerEdit } from "./customer/CustomerEdit";
 import { CustomerShow } from "./customer/CustomerShow";
+import { ProductList } from "./product/ProductList";
+import { ProductCreate } from "./product/ProductCreate";
+import { ProductEdit } from "./product/ProductEdit";
+import { ProductShow } from "./product/ProductShow";
 import { OrderItemList } from "./orderItem/OrderItemList";
 import { OrderItemCreate } from "./orderItem/OrderItemCreate";
 import { OrderItemEdit } from "./orderItem/OrderItemEdit";
@@ -78,18 +78,18 @@ const App = (): React.ReactElement => {
           show={ContactPersonShow}
         />
         <Resource
-          name="Product"
-          list={ProductList}
-          edit={ProductEdit}
-          create={ProductCreate}
-          show={ProductShow}
-        />
-        <Resource
           name="Customer"
           list={CustomerList}
           edit={CustomerEdit}
           create={CustomerCreate}
           show={CustomerShow}
+        />
+        <Resource
+          name="Product"
+          list={ProductList}
+          edit={ProductEdit}
+          create={ProductCreate}
+          show={ProductShow}
         />
         <Resource
           name="OrderItem"

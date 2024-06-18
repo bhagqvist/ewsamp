@@ -19,6 +19,7 @@ const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
   createdAt: new Date(),
+  department: "exampleDepartment",
   email: "exampleEmail",
   firstName: "exampleFirstName",
   id: "exampleId",
@@ -28,6 +29,7 @@ const CREATE_INPUT = {
 };
 const CREATE_RESULT = {
   createdAt: new Date(),
+  department: "exampleDepartment",
   email: "exampleEmail",
   firstName: "exampleFirstName",
   id: "exampleId",
@@ -38,6 +40,7 @@ const CREATE_RESULT = {
 const FIND_MANY_RESULT = [
   {
     createdAt: new Date(),
+    department: "exampleDepartment",
     email: "exampleEmail",
     firstName: "exampleFirstName",
     id: "exampleId",
@@ -48,6 +51,7 @@ const FIND_MANY_RESULT = [
 ];
 const FIND_ONE_RESULT = {
   createdAt: new Date(),
+  department: "exampleDepartment",
   email: "exampleEmail",
   firstName: "exampleFirstName",
   id: "exampleId",

@@ -11,7 +11,6 @@ import {
 } from "react-admin";
 
 import { OrderTitle } from "../order/OrderTitle";
-import { ProductTitle } from "../product/ProductTitle";
 
 export const OrderItemCreate = (props: CreateProps): React.ReactElement => {
   return (
@@ -21,10 +20,9 @@ export const OrderItemCreate = (props: CreateProps): React.ReactElement => {
         <ReferenceInput source="order.id" reference="Order" label="Order">
           <SelectInput optionText={OrderTitle} />
         </ReferenceInput>
+        <NumberInput step={1} label="Position" source="position" />
         <NumberInput label="price" source="price" />
-        <ReferenceInput source="product.id" reference="Product" label="Product">
-          <SelectInput optionText={ProductTitle} />
-        </ReferenceInput>
+        <NumberInput step={1} label="Product" source="product" />
         <NumberInput step={1} label="quantity" source="quantity" />
       </SimpleForm>
     </Create>

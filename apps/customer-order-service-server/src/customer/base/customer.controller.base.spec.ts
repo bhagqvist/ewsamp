@@ -18,37 +18,37 @@ import { CustomerService } from "../customer.service";
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
+  companyName: "exampleCompanyName",
+  companyOrganizationNumber: "exampleCompanyOrganizationNumber",
   createdAt: new Date(),
-  firstName: "exampleFirstName",
   homepage: "exampleHomepage",
   id: "exampleId",
-  lastName: "exampleLastName",
   updatedAt: new Date(),
 };
 const CREATE_RESULT = {
+  companyName: "exampleCompanyName",
+  companyOrganizationNumber: "exampleCompanyOrganizationNumber",
   createdAt: new Date(),
-  firstName: "exampleFirstName",
   homepage: "exampleHomepage",
   id: "exampleId",
-  lastName: "exampleLastName",
   updatedAt: new Date(),
 };
 const FIND_MANY_RESULT = [
   {
+    companyName: "exampleCompanyName",
+    companyOrganizationNumber: "exampleCompanyOrganizationNumber",
     createdAt: new Date(),
-    firstName: "exampleFirstName",
     homepage: "exampleHomepage",
     id: "exampleId",
-    lastName: "exampleLastName",
     updatedAt: new Date(),
   },
 ];
 const FIND_ONE_RESULT = {
+  companyName: "exampleCompanyName",
+  companyOrganizationNumber: "exampleCompanyOrganizationNumber",
   createdAt: new Date(),
-  firstName: "exampleFirstName",
   homepage: "exampleHomepage",
   id: "exampleId",
-  lastName: "exampleLastName",
   updatedAt: new Date(),
 };
 

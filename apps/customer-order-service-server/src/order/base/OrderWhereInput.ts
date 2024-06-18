@@ -14,8 +14,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { ContactPersonWhereUniqueInput } from "../../contactPerson/base/ContactPersonWhereUniqueInput";
 import { ValidateNested, IsOptional, IsEnum } from "class-validator";
 import { Type } from "class-transformer";
-import { StringFilter } from "../../util/StringFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
+import { StringFilter } from "../../util/StringFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { OrderItemListRelationFilter } from "../../orderItem/base/OrderItemListRelationFilter";
 import { ShippingListRelationFilter } from "../../shipping/base/ShippingListRelationFilter";
 import { EnumOrderStatus } from "./EnumOrderStatus";
@@ -37,6 +38,17 @@ class OrderWhereInput {
 
   @ApiProperty({
     required: false,
+    type: DateTimeNullableFilter,
+  })
+  @Type(() => DateTimeNullableFilter)
+  @IsOptional()
+  @Field(() => DateTimeNullableFilter, {
+    nullable: true,
+  })
+  deliveryDate?: DateTimeNullableFilter;
+
+  @ApiProperty({
+    required: false,
     type: StringFilter,
   })
   @Type(() => StringFilter)
@@ -45,6 +57,17 @@ class OrderWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  note?: StringNullableFilter;
 
   @ApiProperty({
     required: false,
@@ -90,7 +113,17 @@ class OrderWhereInput {
   @Field(() => EnumOrderStatus, {
     nullable: true,
   })
-  status?: "Option1";
+  status?:
+    | "Recieved"
+    | "Confirmed"
+    | "Engineering"
+    | "Workshop"
+    | "Shipping"
+    | "Delayed"
+    | "InvoiceIssued"
+    | "AwaitingPayment"
+    | "Completed"
+    | "Other";
 
   @ApiProperty({
     required: false,

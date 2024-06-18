@@ -6,6 +6,8 @@ import {
   CreateProps,
   ReferenceInput,
   SelectInput,
+  DateInput,
+  TextInput,
   DateTimeInput,
   ReferenceArrayInput,
   SelectArrayInput,
@@ -27,6 +29,8 @@ export const OrderCreate = (props: CreateProps): React.ReactElement => {
         >
           <SelectInput optionText={ContactPersonTitle} />
         </ReferenceInput>
+        <DateInput label="Delivery Date" source="deliveryDate" />
+        <TextInput label="Note" multiline source="note" />
         <DateTimeInput label="orderDate" source="orderDate" />
         <ReferenceArrayInput
           source="orderItems"
@@ -47,7 +51,18 @@ export const OrderCreate = (props: CreateProps): React.ReactElement => {
         <SelectInput
           source="status"
           label="status"
-          choices={[{ label: "Option 1", value: "Option1" }]}
+          choices={[
+            { label: "Recieved", value: "Recieved" },
+            { label: "Confirmed", value: "Confirmed" },
+            { label: "Engineering", value: "Engineering" },
+            { label: "Workshop", value: "Workshop" },
+            { label: "Shipping", value: "Shipping" },
+            { label: "Delayed", value: "Delayed" },
+            { label: "Invoice issued", value: "InvoiceIssued" },
+            { label: "Awaiting payment", value: "AwaitingPayment" },
+            { label: "Completed", value: "Completed" },
+            { label: "Other", value: "Other" },
+          ]}
           optionText="label"
           allowEmpty
           optionValue="value"

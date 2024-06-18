@@ -11,15 +11,27 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested, IsEnum } from "class-validator";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { ContactPersonWhereUniqueInput } from "../../contactPerson/base/ContactPersonWhereUniqueInput";
 import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
-import { StringFilter } from "../../util/StringFilter";
 import { EnumAddressTypeField } from "./EnumAddressTypeField";
 
 @InputType()
 class AddressWhereInput {
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  address?: StringFilter;
+
   @ApiProperty({
     required: false,
     type: StringNullableFilter,
@@ -29,7 +41,52 @@ class AddressWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  address?: StringNullableFilter;
+  address2?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  city?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => ContactPersonWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => ContactPersonWhereUniqueInput)
+  @IsOptional()
+  @Field(() => ContactPersonWhereUniqueInput, {
+    nullable: true,
+  })
+  contactPeople?: ContactPersonWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  country?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  countrycode?: StringNullableFilter;
 
   @ApiProperty({
     required: false,
@@ -63,7 +120,18 @@ class AddressWhereInput {
   @Field(() => EnumAddressTypeField, {
     nullable: true,
   })
-  typeField?: "Option1";
+  typeField?: "Postal" | "Visiting" | "Shipping" | "Billing";
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  zipCode?: StringNullableFilter;
 }
 
 export { AddressWhereInput as AddressWhereInput };

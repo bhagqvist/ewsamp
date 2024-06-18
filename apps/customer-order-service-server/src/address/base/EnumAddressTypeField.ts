@@ -9,10 +9,14 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
+import { Shipping } from "../../shipping/base/Shipping";
 import { registerEnumType } from "@nestjs/graphql";
 
 export enum EnumAddressTypeField {
-  Option_1 = "Option1",
+  Postal = "Postal",
+  Visiting = "Visiting",
+  Shipping = "Shipping",
+  Billing = "Billing",
 }
 
 registerEnumType(EnumAddressTypeField, {
