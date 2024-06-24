@@ -7,21 +7,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Order {
-  contactPerson   ContactPerson?   @relation(fields: [contactPersonId], references: [id])
-  contactPersonId String?
-  createdAt       DateTime         @default(now())
-  deliveryDate    DateTime?
-  id              String           @id @default(cuid())
-  note            String?
-  orderDate       DateTime?
-  orderItems      OrderItem[]
-  shippings       Shipping[]
-  status          EnumOrderStatus?
-  totalAmount     Float?
-  updatedAt       DateTime         @updatedAt
-}
-
 model ContactPerson {
   addresses  Address[]
   createdAt  DateTime  @default(now())
@@ -56,6 +41,21 @@ model Product {
   price         Float?
   productNumber String   @unique
   updatedAt     DateTime @updatedAt
+}
+
+model Order {
+  contactPerson   ContactPerson?   @relation(fields: [contactPersonId], references: [id])
+  contactPersonId String?
+  createdAt       DateTime         @default(now())
+  deliveryDate    DateTime?
+  id              String           @id @default(cuid())
+  note            String?
+  orderDate       DateTime?
+  orderItems      OrderItem[]
+  shippings       Shipping[]
+  status          EnumOrderStatus?
+  totalAmount     Float?
+  updatedAt       DateTime         @updatedAt
 }
 
 model OrderItem {
@@ -109,6 +109,18 @@ model Address {
   typeField       EnumAddressTypeField?
   updatedAt       DateTime              @updatedAt
   zipCode         String?
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
 }
 
 enum EnumOrderStatus {

@@ -11,7 +11,13 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, ValidateNested, IsEnum } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
+  IsEnum,
+} from "class-validator";
 import { ContactPersonWhereUniqueInput } from "../../contactPerson/base/ContactPersonWhereUniqueInput";
 import { Type } from "class-transformer";
 import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
@@ -24,6 +30,7 @@ class AddressCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(256)
   @Field(() => String)
   address!: string;
 
@@ -32,6 +39,7 @@ class AddressCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(35)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -43,6 +51,7 @@ class AddressCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -66,6 +75,7 @@ class AddressCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(35)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -77,6 +87,7 @@ class AddressCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(2)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -111,6 +122,7 @@ class AddressCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(10)
   @IsOptional()
   @Field(() => String, {
     nullable: true,

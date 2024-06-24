@@ -13,6 +13,12 @@ import * as graphql from "@nestjs/graphql";
 import { GraphQLError } from "graphql";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
+import * as nestAccessControl from "nest-access-control";
+import * as gqlACGuard from "../../auth/gqlAC.guard";
+import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
+import * as common from "@nestjs/common";
+import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { OrderItem } from "./OrderItem";
 import { OrderItemCountArgs } from "./OrderItemCountArgs";
 import { OrderItemFindManyArgs } from "./OrderItemFindManyArgs";
@@ -22,10 +28,20 @@ import { UpdateOrderItemArgs } from "./UpdateOrderItemArgs";
 import { DeleteOrderItemArgs } from "./DeleteOrderItemArgs";
 import { Order } from "../../order/base/Order";
 import { OrderItemService } from "../orderItem.service";
+@common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => OrderItem)
 export class OrderItemResolverBase {
-  constructor(protected readonly service: OrderItemService) {}
+  constructor(
+    protected readonly service: OrderItemService,
+    protected readonly rolesBuilder: nestAccessControl.RolesBuilder
+  ) {}
 
+  @graphql.Query(() => MetaQueryPayload)
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "read",
+    possession: "any",
+  })
   async _orderItemsMeta(
     @graphql.Args() args: OrderItemCountArgs
   ): Promise<MetaQueryPayload> {
@@ -35,14 +51,26 @@ export class OrderItemResolverBase {
     };
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.Query(() => [OrderItem])
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "read",
+    possession: "any",
+  })
   async orderItems(
     @graphql.Args() args: OrderItemFindManyArgs
   ): Promise<OrderItem[]> {
     return this.service.orderItems(args);
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.Query(() => OrderItem, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "read",
+    possession: "own",
+  })
   async orderItem(
     @graphql.Args() args: OrderItemFindUniqueArgs
   ): Promise<OrderItem | null> {
@@ -53,7 +81,13 @@ export class OrderItemResolverBase {
     return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @graphql.Mutation(() => OrderItem)
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "create",
+    possession: "any",
+  })
   async createOrderItem(
     @graphql.Args() args: CreateOrderItemArgs
   ): Promise<OrderItem> {
@@ -71,7 +105,13 @@ export class OrderItemResolverBase {
     });
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @graphql.Mutation(() => OrderItem)
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "update",
+    possession: "any",
+  })
   async updateOrderItem(
     @graphql.Args() args: UpdateOrderItemArgs
   ): Promise<OrderItem | null> {
@@ -99,6 +139,11 @@ export class OrderItemResolverBase {
   }
 
   @graphql.Mutation(() => OrderItem)
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "delete",
+    possession: "any",
+  })
   async deleteOrderItem(
     @graphql.Args() args: DeleteOrderItemArgs
   ): Promise<OrderItem | null> {
@@ -114,9 +159,15 @@ export class OrderItemResolverBase {
     }
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.ResolveField(() => Order, {
     nullable: true,
     name: "order",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "Order",
+    action: "read",
+    possession: "any",
   })
   async getOrder(@graphql.Parent() parent: OrderItem): Promise<Order | null> {
     const result = await this.service.getOrder(parent.id);

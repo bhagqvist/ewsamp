@@ -11,7 +11,13 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, IsOptional, IsEnum } from "class-validator";
+import {
+  IsDate,
+  IsString,
+  IsOptional,
+  MaxLength,
+  IsEnum,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { EnumEmployeeRole } from "./EnumEmployeeRole";
 
@@ -41,6 +47,7 @@ class Employee {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -60,6 +67,7 @@ class Employee {
     type: String,
   })
   @IsString()
+  @MaxLength(6)
   @Field(() => String)
   initials!: string;
 
@@ -68,6 +76,7 @@ class Employee {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,

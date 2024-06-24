@@ -5,10 +5,6 @@ import { theme } from "./theme/theme";
 import Login from "./Login";
 import "./App.scss";
 import Dashboard from "./pages/Dashboard";
-import { OrderList } from "./order/OrderList";
-import { OrderCreate } from "./order/OrderCreate";
-import { OrderEdit } from "./order/OrderEdit";
-import { OrderShow } from "./order/OrderShow";
 import { ContactPersonList } from "./contactPerson/ContactPersonList";
 import { ContactPersonCreate } from "./contactPerson/ContactPersonCreate";
 import { ContactPersonEdit } from "./contactPerson/ContactPersonEdit";
@@ -21,6 +17,10 @@ import { ProductList } from "./product/ProductList";
 import { ProductCreate } from "./product/ProductCreate";
 import { ProductEdit } from "./product/ProductEdit";
 import { ProductShow } from "./product/ProductShow";
+import { OrderList } from "./order/OrderList";
+import { OrderCreate } from "./order/OrderCreate";
+import { OrderEdit } from "./order/OrderEdit";
+import { OrderShow } from "./order/OrderShow";
 import { OrderItemList } from "./orderItem/OrderItemList";
 import { OrderItemCreate } from "./orderItem/OrderItemCreate";
 import { OrderItemEdit } from "./orderItem/OrderItemEdit";
@@ -37,6 +37,10 @@ import { AddressList } from "./address/AddressList";
 import { AddressCreate } from "./address/AddressCreate";
 import { AddressEdit } from "./address/AddressEdit";
 import { AddressShow } from "./address/AddressShow";
+import { UserList } from "./user/UserList";
+import { UserCreate } from "./user/UserCreate";
+import { UserEdit } from "./user/UserEdit";
+import { UserShow } from "./user/UserShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -64,13 +68,6 @@ const App = (): React.ReactElement => {
         loginPage={Login}
       >
         <Resource
-          name="Order"
-          list={OrderList}
-          edit={OrderEdit}
-          create={OrderCreate}
-          show={OrderShow}
-        />
-        <Resource
           name="ContactPerson"
           list={ContactPersonList}
           edit={ContactPersonEdit}
@@ -90,6 +87,13 @@ const App = (): React.ReactElement => {
           edit={ProductEdit}
           create={ProductCreate}
           show={ProductShow}
+        />
+        <Resource
+          name="Order"
+          list={OrderList}
+          edit={OrderEdit}
+          create={OrderCreate}
+          show={OrderShow}
         />
         <Resource
           name="OrderItem"
@@ -118,6 +122,13 @@ const App = (): React.ReactElement => {
           edit={AddressEdit}
           create={AddressCreate}
           show={AddressShow}
+        />
+        <Resource
+          name="User"
+          list={UserList}
+          edit={UserEdit}
+          create={UserCreate}
+          show={UserShow}
         />
       </Admin>
     </div>

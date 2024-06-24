@@ -16,17 +16,35 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
+import * as nestAccessControl from "nest-access-control";
+import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { ShippingService } from "../shipping.service";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { ShippingCreateInput } from "./ShippingCreateInput";
 import { Shipping } from "./Shipping";
 import { ShippingFindManyArgs } from "./ShippingFindManyArgs";
 import { ShippingWhereUniqueInput } from "./ShippingWhereUniqueInput";
 import { ShippingUpdateInput } from "./ShippingUpdateInput";
 
+@swagger.ApiBearerAuth()
+@common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class ShippingControllerBase {
-  constructor(protected readonly service: ShippingService) {}
+  constructor(
+    protected readonly service: ShippingService,
+    protected readonly rolesBuilder: nestAccessControl.RolesBuilder
+  ) {}
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
   @swagger.ApiCreatedResponse({ type: Shipping })
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "create",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async createShipping(
     @common.Body() data: ShippingCreateInput
   ): Promise<Shipping> {
@@ -59,9 +77,18 @@ export class ShippingControllerBase {
     });
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get()
   @swagger.ApiOkResponse({ type: [Shipping] })
   @ApiNestedQuery(ShippingFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "read",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async shippings(@common.Req() request: Request): Promise<Shipping[]> {
     const args = plainToClass(ShippingFindManyArgs, request.query);
     return this.service.shippings({
@@ -85,9 +112,18 @@ export class ShippingControllerBase {
     });
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get("/:id")
   @swagger.ApiOkResponse({ type: Shipping })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "read",
+    possession: "own",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async shipping(
     @common.Param() params: ShippingWhereUniqueInput
   ): Promise<Shipping | null> {
@@ -118,9 +154,18 @@ export class ShippingControllerBase {
     return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Patch("/:id")
   @swagger.ApiOkResponse({ type: Shipping })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "update",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async updateShipping(
     @common.Param() params: ShippingWhereUniqueInput,
     @common.Body() data: ShippingUpdateInput
@@ -167,6 +212,14 @@ export class ShippingControllerBase {
   @common.Delete("/:id")
   @swagger.ApiOkResponse({ type: Shipping })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "delete",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async deleteShipping(
     @common.Param() params: ShippingWhereUniqueInput
   ): Promise<Shipping | null> {
