@@ -12,14 +12,19 @@ https://docs.amplication.com/how-to/custom-code
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { ContactPerson } from "../../contactPerson/base/ContactPerson";
+
 import {
   ValidateNested,
   IsOptional,
   IsDate,
   IsString,
+  MaxLength,
   IsEnum,
   IsNumber,
+  Min,
+  Max,
 } from "class-validator";
+
 import { Type } from "class-transformer";
 import { OrderItem } from "../../orderItem/base/OrderItem";
 import { Shipping } from "../../shipping/base/Shipping";
@@ -68,6 +73,7 @@ class Order {
     type: String,
   })
   @IsString()
+  @MaxLength(2560)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -130,6 +136,8 @@ class Order {
     type: Number,
   })
   @IsNumber()
+  @Min(-999999999)
+  @Max(999999999)
   @IsOptional()
   @Field(() => Number, {
     nullable: true,

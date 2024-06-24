@@ -13,6 +13,12 @@ import * as graphql from "@nestjs/graphql";
 import { GraphQLError } from "graphql";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
+import * as nestAccessControl from "nest-access-control";
+import * as gqlACGuard from "../../auth/gqlAC.guard";
+import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
+import * as common from "@nestjs/common";
+import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Shipping } from "./Shipping";
 import { ShippingCountArgs } from "./ShippingCountArgs";
 import { ShippingFindManyArgs } from "./ShippingFindManyArgs";
@@ -22,10 +28,20 @@ import { UpdateShippingArgs } from "./UpdateShippingArgs";
 import { DeleteShippingArgs } from "./DeleteShippingArgs";
 import { Order } from "../../order/base/Order";
 import { ShippingService } from "../shipping.service";
+@common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Shipping)
 export class ShippingResolverBase {
-  constructor(protected readonly service: ShippingService) {}
+  constructor(
+    protected readonly service: ShippingService,
+    protected readonly rolesBuilder: nestAccessControl.RolesBuilder
+  ) {}
 
+  @graphql.Query(() => MetaQueryPayload)
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "read",
+    possession: "any",
+  })
   async _shippingsMeta(
     @graphql.Args() args: ShippingCountArgs
   ): Promise<MetaQueryPayload> {
@@ -35,14 +51,26 @@ export class ShippingResolverBase {
     };
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.Query(() => [Shipping])
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "read",
+    possession: "any",
+  })
   async shippings(
     @graphql.Args() args: ShippingFindManyArgs
   ): Promise<Shipping[]> {
     return this.service.shippings(args);
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.Query(() => Shipping, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "read",
+    possession: "own",
+  })
   async shipping(
     @graphql.Args() args: ShippingFindUniqueArgs
   ): Promise<Shipping | null> {
@@ -53,7 +81,13 @@ export class ShippingResolverBase {
     return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @graphql.Mutation(() => Shipping)
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "create",
+    possession: "any",
+  })
   async createShipping(
     @graphql.Args() args: CreateShippingArgs
   ): Promise<Shipping> {
@@ -71,7 +105,13 @@ export class ShippingResolverBase {
     });
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @graphql.Mutation(() => Shipping)
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "update",
+    possession: "any",
+  })
   async updateShipping(
     @graphql.Args() args: UpdateShippingArgs
   ): Promise<Shipping | null> {
@@ -99,6 +139,11 @@ export class ShippingResolverBase {
   }
 
   @graphql.Mutation(() => Shipping)
+  @nestAccessControl.UseRoles({
+    resource: "Shipping",
+    action: "delete",
+    possession: "any",
+  })
   async deleteShipping(
     @graphql.Args() args: DeleteShippingArgs
   ): Promise<Shipping | null> {
@@ -114,9 +159,15 @@ export class ShippingResolverBase {
     }
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @graphql.ResolveField(() => Order, {
     nullable: true,
     name: "order",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "Order",
+    action: "read",
+    possession: "any",
   })
   async getOrder(@graphql.Parent() parent: Shipping): Promise<Order | null> {
     const result = await this.service.getOrder(parent.id);

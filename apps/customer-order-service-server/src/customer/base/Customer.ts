@@ -12,7 +12,13 @@ https://docs.amplication.com/how-to/custom-code
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { Address } from "../../address/base/Address";
-import { ValidateNested, IsOptional, IsString, IsDate } from "class-validator";
+import {
+  ValidateNested,
+  IsOptional,
+  IsString,
+  MaxLength,
+  IsDate,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { ContactPerson } from "../../contactPerson/base/ContactPerson";
 
@@ -32,6 +38,7 @@ class Customer {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @Field(() => String)
   companyName!: string;
 
@@ -40,6 +47,7 @@ class Customer {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @Field(() => String)
   companyOrganizationNumber!: string;
 
@@ -65,6 +73,7 @@ class Customer {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,

@@ -11,7 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, IsEnum } from "class-validator";
+import { IsString, IsOptional, MaxLength, IsEnum } from "class-validator";
 import { EnumEmployeeRole } from "./EnumEmployeeRole";
 
 @InputType()
@@ -32,6 +32,7 @@ class EmployeeCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -43,6 +44,7 @@ class EmployeeCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(6)
   @Field(() => String)
   initials!: string;
 
@@ -51,6 +53,7 @@ class EmployeeCreateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,

@@ -11,7 +11,15 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, IsOptional, IsNumber } from "class-validator";
+import {
+  IsDate,
+  IsString,
+  MaxLength,
+  IsOptional,
+  IsNumber,
+  Min,
+  Max,
+} from "class-validator";
 import { Type } from "class-transformer";
 
 @ObjectType()
@@ -29,6 +37,7 @@ class Product {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -48,6 +57,7 @@ class Product {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -59,6 +69,8 @@ class Product {
     type: Number,
   })
   @IsNumber()
+  @Min(-999999999)
+  @Max(999999999)
   @IsOptional()
   @Field(() => Number, {
     nullable: true,
@@ -70,6 +82,7 @@ class Product {
     type: String,
   })
   @IsString()
+  @MaxLength(100)
   @Field(() => String)
   productNumber!: string;
 

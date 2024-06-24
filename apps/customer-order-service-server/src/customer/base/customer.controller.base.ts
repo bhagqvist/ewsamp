@@ -16,7 +16,11 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
+import * as nestAccessControl from "nest-access-control";
+import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { CustomerService } from "../customer.service";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { CustomerCreateInput } from "./CustomerCreateInput";
 import { Customer } from "./Customer";
 import { CustomerFindManyArgs } from "./CustomerFindManyArgs";
@@ -29,10 +33,24 @@ import { ContactPersonFindManyArgs } from "../../contactPerson/base/ContactPerso
 import { ContactPerson } from "../../contactPerson/base/ContactPerson";
 import { ContactPersonWhereUniqueInput } from "../../contactPerson/base/ContactPersonWhereUniqueInput";
 
+@swagger.ApiBearerAuth()
+@common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class CustomerControllerBase {
-  constructor(protected readonly service: CustomerService) {}
+  constructor(
+    protected readonly service: CustomerService,
+    protected readonly rolesBuilder: nestAccessControl.RolesBuilder
+  ) {}
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
   @swagger.ApiCreatedResponse({ type: Customer })
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "create",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async createCustomer(
     @common.Body() data: CustomerCreateInput
   ): Promise<Customer> {
@@ -49,9 +67,18 @@ export class CustomerControllerBase {
     });
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get()
   @swagger.ApiOkResponse({ type: [Customer] })
   @ApiNestedQuery(CustomerFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "read",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async customers(@common.Req() request: Request): Promise<Customer[]> {
     const args = plainToClass(CustomerFindManyArgs, request.query);
     return this.service.customers({
@@ -67,9 +94,18 @@ export class CustomerControllerBase {
     });
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get("/:id")
   @swagger.ApiOkResponse({ type: Customer })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "read",
+    possession: "own",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async customer(
     @common.Param() params: CustomerWhereUniqueInput
   ): Promise<Customer | null> {
@@ -92,9 +128,18 @@ export class CustomerControllerBase {
     return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Patch("/:id")
   @swagger.ApiOkResponse({ type: Customer })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async updateCustomer(
     @common.Param() params: CustomerWhereUniqueInput,
     @common.Body() data: CustomerUpdateInput
@@ -125,6 +170,14 @@ export class CustomerControllerBase {
   @common.Delete("/:id")
   @swagger.ApiOkResponse({ type: Customer })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "delete",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async deleteCustomer(
     @common.Param() params: CustomerWhereUniqueInput
   ): Promise<Customer | null> {
@@ -150,8 +203,14 @@ export class CustomerControllerBase {
     }
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get("/:id/addresses")
   @ApiNestedQuery(AddressFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "Address",
+    action: "read",
+    possession: "any",
+  })
   async findAddresses(
     @common.Req() request: Request,
     @common.Param() params: CustomerWhereUniqueInput
@@ -195,6 +254,11 @@ export class CustomerControllerBase {
   }
 
   @common.Post("/:id/addresses")
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
   async connectAddresses(
     @common.Param() params: CustomerWhereUniqueInput,
     @common.Body() body: AddressWhereUniqueInput[]
@@ -212,6 +276,11 @@ export class CustomerControllerBase {
   }
 
   @common.Patch("/:id/addresses")
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
   async updateAddresses(
     @common.Param() params: CustomerWhereUniqueInput,
     @common.Body() body: AddressWhereUniqueInput[]
@@ -229,6 +298,11 @@ export class CustomerControllerBase {
   }
 
   @common.Delete("/:id/addresses")
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
   async disconnectAddresses(
     @common.Param() params: CustomerWhereUniqueInput,
     @common.Body() body: AddressWhereUniqueInput[]
@@ -245,8 +319,14 @@ export class CustomerControllerBase {
     });
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get("/:id/contactPeople")
   @ApiNestedQuery(ContactPersonFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "ContactPerson",
+    action: "read",
+    possession: "any",
+  })
   async findContactPeople(
     @common.Req() request: Request,
     @common.Param() params: CustomerWhereUniqueInput
@@ -281,6 +361,11 @@ export class CustomerControllerBase {
   }
 
   @common.Post("/:id/contactPeople")
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
   async connectContactPeople(
     @common.Param() params: CustomerWhereUniqueInput,
     @common.Body() body: ContactPersonWhereUniqueInput[]
@@ -298,6 +383,11 @@ export class CustomerControllerBase {
   }
 
   @common.Patch("/:id/contactPeople")
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
   async updateContactPeople(
     @common.Param() params: CustomerWhereUniqueInput,
     @common.Body() body: ContactPersonWhereUniqueInput[]
@@ -315,6 +405,11 @@ export class CustomerControllerBase {
   }
 
   @common.Delete("/:id/contactPeople")
+  @nestAccessControl.UseRoles({
+    resource: "Customer",
+    action: "update",
+    possession: "any",
+  })
   async disconnectContactPeople(
     @common.Param() params: CustomerWhereUniqueInput,
     @common.Body() body: ContactPersonWhereUniqueInput[]

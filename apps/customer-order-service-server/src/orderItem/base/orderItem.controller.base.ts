@@ -16,17 +16,35 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
+import * as nestAccessControl from "nest-access-control";
+import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { OrderItemService } from "../orderItem.service";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { OrderItemCreateInput } from "./OrderItemCreateInput";
 import { OrderItem } from "./OrderItem";
 import { OrderItemFindManyArgs } from "./OrderItemFindManyArgs";
 import { OrderItemWhereUniqueInput } from "./OrderItemWhereUniqueInput";
 import { OrderItemUpdateInput } from "./OrderItemUpdateInput";
 
+@swagger.ApiBearerAuth()
+@common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class OrderItemControllerBase {
-  constructor(protected readonly service: OrderItemService) {}
+  constructor(
+    protected readonly service: OrderItemService,
+    protected readonly rolesBuilder: nestAccessControl.RolesBuilder
+  ) {}
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
   @swagger.ApiCreatedResponse({ type: OrderItem })
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "create",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async createOrderItem(
     @common.Body() data: OrderItemCreateInput
   ): Promise<OrderItem> {
@@ -60,9 +78,18 @@ export class OrderItemControllerBase {
     });
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get()
   @swagger.ApiOkResponse({ type: [OrderItem] })
   @ApiNestedQuery(OrderItemFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "read",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async orderItems(@common.Req() request: Request): Promise<OrderItem[]> {
     const args = plainToClass(OrderItemFindManyArgs, request.query);
     return this.service.orderItems({
@@ -87,9 +114,18 @@ export class OrderItemControllerBase {
     });
   }
 
+  @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get("/:id")
   @swagger.ApiOkResponse({ type: OrderItem })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "read",
+    possession: "own",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async orderItem(
     @common.Param() params: OrderItemWhereUniqueInput
   ): Promise<OrderItem | null> {
@@ -121,9 +157,18 @@ export class OrderItemControllerBase {
     return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Patch("/:id")
   @swagger.ApiOkResponse({ type: OrderItem })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "update",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async updateOrderItem(
     @common.Param() params: OrderItemWhereUniqueInput,
     @common.Body() data: OrderItemUpdateInput
@@ -171,6 +216,14 @@ export class OrderItemControllerBase {
   @common.Delete("/:id")
   @swagger.ApiOkResponse({ type: OrderItem })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @nestAccessControl.UseRoles({
+    resource: "OrderItem",
+    action: "delete",
+    possession: "any",
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
   async deleteOrderItem(
     @common.Param() params: OrderItemWhereUniqueInput
   ): Promise<OrderItem | null> {

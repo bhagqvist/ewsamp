@@ -17,7 +17,10 @@ import {
   IsOptional,
   IsDate,
   IsString,
+  MaxLength,
   IsInt,
+  Min,
+  Max,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { Customer } from "../../customer/base/Customer";
@@ -56,6 +59,7 @@ class ContactPerson {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -78,6 +82,7 @@ class ContactPerson {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -97,6 +102,7 @@ class ContactPerson {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -117,6 +123,8 @@ class ContactPerson {
     type: Number,
   })
   @IsInt()
+  @Min(-999999999)
+  @Max(999999999)
   @IsOptional()
   @Field(() => Number, {
     nullable: true,
