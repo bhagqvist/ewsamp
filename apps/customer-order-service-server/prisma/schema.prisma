@@ -1,0 +1,140 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Order {
+  contactPerson   ContactPerson?   @relation(fields: [contactPersonId], references: [id])
+  contactPersonId String?
+  createdAt       DateTime         @default(now())
+  deliveryDate    DateTime?
+  id              String           @id @default(cuid())
+  note            String?
+  orderDate       DateTime?
+  orderItems      OrderItem[]
+  shippings       Shipping[]
+  status          EnumOrderStatus?
+  totalAmount     Float?
+  updatedAt       DateTime         @updatedAt
+}
+
+model ContactPerson {
+  addresses  Address[]
+  createdAt  DateTime  @default(now())
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+  department String?
+  email      String?
+  firstName  String?
+  id         String    @id @default(cuid())
+  lastName   String?
+  orders     Order[]
+  phone      Int?
+  updatedAt  DateTime  @updatedAt
+}
+
+model Customer {
+  addresses                 Address[]
+  companyName               String          @unique
+  companyOrganizationNumber String          @unique
+  contactPeople             ContactPerson[]
+  createdAt                 DateTime        @default(now())
+  homepage                  String?
+  id                        String          @id @default(cuid())
+  updatedAt                 DateTime        @updatedAt
+}
+
+model Product {
+  createdAt     DateTime @default(now())
+  description   String?
+  id            String   @id @default(cuid())
+  name          String?
+  price         Float?
+  productNumber String   @unique
+  updatedAt     DateTime @updatedAt
+}
+
+model OrderItem {
+  createdAt    DateTime  @default(now())
+  deliveryDate DateTime?
+  id           String    @id @default(cuid())
+  order        Order?    @relation(fields: [orderId], references: [id])
+  orderId      String?
+  position     Int?
+  price        Float?
+  product      Int?
+  quantity     Int
+  updatedAt    DateTime  @updatedAt
+}
+
+model Shipping {
+  address        String?
+  createdAt      DateTime                    @default(now())
+  deliveryStatus EnumShippingDeliveryStatus?
+  id             String                      @id @default(cuid())
+  order          Order?                      @relation(fields: [orderId], references: [id])
+  orderId        String?
+  shippedBy      String?
+  shippingDate   DateTime?
+  updatedAt      DateTime                    @updatedAt
+}
+
+model Employee {
+  createdAt DateTime          @default(now())
+  email     String?
+  firstName String?
+  id        String            @id @default(cuid())
+  initials  String            @unique
+  lastName  String?
+  role      EnumEmployeeRole?
+  updatedAt DateTime          @updatedAt
+}
+
+model Address {
+  address         String
+  address2        String?
+  city            String?
+  contactPeople   ContactPerson?        @relation(fields: [contactPeopleId], references: [id])
+  contactPeopleId String?
+  country         String?
+  countrycode     String?
+  createdAt       DateTime              @default(now())
+  customer        Customer?             @relation(fields: [customerId], references: [id])
+  customerId      String?
+  id              String                @id @default(cuid())
+  typeField       EnumAddressTypeField?
+  updatedAt       DateTime              @updatedAt
+  zipCode         String?
+}
+
+enum EnumOrderStatus {
+  Recieved
+  Confirmed
+  Engineering
+  Workshop
+  Shipping
+  Delayed
+  InvoiceIssued
+  AwaitingPayment
+  Completed
+  Other
+}
+
+enum EnumShippingDeliveryStatus {
+  Option1
+}
+
+enum EnumEmployeeRole {
+  Option1
+}
+
+enum EnumAddressTypeField {
+  Postal
+  Visiting
+  Shipping
+  Billing
+}
